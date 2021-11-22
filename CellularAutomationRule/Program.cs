@@ -86,10 +86,14 @@ namespace CellularAutomationRule
             // getting the values from the console
             try
             {
-                byte.TryParse(args[0], out rule);
-                int.TryParse(args[1], out boardSize);
-                int.TryParse(args[2], out iterations);
-                int.TryParse(args[3], out fps);
+                byte.TryParse(args[0], out byte newRule);
+                if (newRule is not default(byte)) rule = newRule;
+                int.TryParse(args[1], out int newBoardSize);
+                if (newBoardSize is not default(int)) boardSize = newBoardSize;
+                int.TryParse(args[2], out int newIterations);
+                if (newIterations is not default(int)) iterations = newIterations;
+                int.TryParse(args[3], out int newFps);
+                if (newFps is not default(int)) fps = newFps;
                 bool.TryParse(args[4], out randomStart);
             }
             catch (Exception)
