@@ -46,9 +46,9 @@ namespace Hangman
 
         static List<char> GetGuessed(char[] letters)
         {
-            return letters.Where(letter => letter != '_').ToList();
+            return letters.Where(letter => letter != '_').Distinct().ToList();
         }
-        
+
         static bool TrySetLetter(char guess, char[] letters, string word)
         {
             bool set = false;
@@ -62,15 +62,15 @@ namespace Hangman
             }
             return set;
         }
-       
+
         static void Main(string[] args)
         {
-            int lives = 5;
+            int lives = 26;
             var word = GetRandomWord();
             var startingArray = GetStartingArray(word);
             SetStartingLetters(startingArray, word);
             var guessed = GetGuessed(startingArray);
-            while (guessed.Count < word.Length && lives > 0)
+            while (string.Join("", startingArray) != word && lives > 0)
             {
                 Console.Clear();
                 Console.WriteLine(string.Join(" ", startingArray));
@@ -80,9 +80,10 @@ namespace Hangman
                 Console.Write('\b');
                 if (!TrySetLetter(guess, startingArray, word))
                     lives--;
-                guessed.Add(guess);
+                if (!guessed.Contains(guess))
+                    guessed.Add(guess);
             }
-            if (guessed.Count == word.Length)
+            if (string.Join("", startingArray) == word)
             {
                 Console.Clear();
                 Console.WriteLine(string.Join(" ", startingArray));
