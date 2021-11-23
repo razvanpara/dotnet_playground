@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31613.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CellularAutomationRule", "CellularAutomationRule\CellularAutomationRule.csproj", "{9181A0C3-0607-40E6-B91C-09A3614174DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CellularAutomationRule", "CellularAutomationRule\CellularAutomationRule.csproj", "{9181A0C3-0607-40E6-B91C-09A3614174DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PascalTriangleGenerator", "PascalTriangleGenerator\PascalTriangleGenerator.csproj", "{C37AB4B4-9CD0-4F65-9E62-265315F4B18A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{9181A0C3-0607-40E6-B91C-09A3614174DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9181A0C3-0607-40E6-B91C-09A3614174DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9181A0C3-0607-40E6-B91C-09A3614174DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C37AB4B4-9CD0-4F65-9E62-265315F4B18A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C37AB4B4-9CD0-4F65-9E62-265315F4B18A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C37AB4B4-9CD0-4F65-9E62-265315F4B18A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C37AB4B4-9CD0-4F65-9E62-265315F4B18A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
