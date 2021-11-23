@@ -7,7 +7,7 @@ namespace Hangman
 {
     class Program
     {
-        static string GetRandomWord() => "ABRUPTLY AWKWARD BAGPIPES BANDWAGON BANJO BEEKEEPER BIKINI BLIZZARD ZOMBIE"
+        static string GetRandomWord() => "TEMPERAMENT SCHIZOFRENIC STERNOCLEIDOMASTOIDIAN ELECTROCARDIOGRAMA XILOFON PNEUMATIC SPERMATOZOID ZBENGHI TRANSPLANT LATIFUNDIAR OPIACEU ARBITRARIETATE PNEUMOGASTRIC STUPEFIANT SOIOS BIBLIOLOGIE COMPLEXITATE METALURGIE ELECTROGLOTOSPECTROGRAFIE FEROMICROAZOTOMBOHIDRIC ELECTROGLOTOSPECTROGRAFIE NEOLOGISM SPECTRU RADIOGRAFIE JARGON INCAPABIL NECOOPERANT METACARP CICLIC TRAPEZOID PISIFORM NOSTALGIE ELOCVENT REGENERATOR DERMATOVENEROLOGIE PNEUMATIC HOMODIEGETIC"
             .Split(" ")
             .OrderBy(_ => Guid.NewGuid())
             .First();
@@ -48,7 +48,13 @@ namespace Hangman
         {
             return letters.Where(letter => letter != '_').Distinct().ToList();
         }
-
+        static void PrintStatus(IEnumerable<char> letters, IEnumerable<char> guesses, int livesLeft)
+        {
+            Console.Clear();
+            Console.WriteLine($"Word:\t\t\t{string.Join(" ", letters)}");
+            Console.WriteLine($"Used characters:\t[{string.Join(" ", guesses)}]");
+            Console.WriteLine($"Lives left: {livesLeft}");
+        }
         static bool TrySetLetter(char guess, char[] letters, string word)
         {
             bool set = false;
@@ -72,12 +78,9 @@ namespace Hangman
             var guessed = GetGuessed(startingArray);
             while (string.Join("", startingArray) != word && lives > 0)
             {
-                Console.Clear();
-                Console.WriteLine(string.Join(" ", startingArray));
-                Console.WriteLine($"Used characters: [{string.Join(" ", guessed)}]");
+                PrintStatus(startingArray, guessed, lives);
                 Console.WriteLine("Input letter:");
                 var guess = Char.ToUpper(Console.ReadKey().KeyChar);
-                Console.Write('\b');
                 if (!TrySetLetter(guess, startingArray, word))
                     lives--;
                 if (!guessed.Contains(guess))
@@ -85,9 +88,7 @@ namespace Hangman
             }
             if (string.Join("", startingArray) == word)
             {
-                Console.Clear();
-                Console.WriteLine(string.Join(" ", startingArray));
-                Console.WriteLine($"Used characters: [{string.Join(" ", guessed)}]");
+                PrintStatus(startingArray, guessed, lives);
                 Console.WriteLine($"Congrats, you've guessed the word {word} !!");
             }
             else
