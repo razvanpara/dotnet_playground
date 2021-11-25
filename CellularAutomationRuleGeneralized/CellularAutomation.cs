@@ -42,7 +42,7 @@ namespace CellularAutomationRule16bit
             //var leadingZeroes = Enumerable.Repeat(false, minDigits - numberBinaryArray.Count());
             //leadingZeroes.ToList().ForEach(zero => numberBinaryArray = numberBinaryArray.Prepend(zero));
             //
-            
+
             // since using big integers, we can no longer use the above code
             // with big integers, the lowest array lenght is 8 so in order to get just the bits we need
             // we skip the first array.length - minimum digits
@@ -54,6 +54,15 @@ namespace CellularAutomationRule16bit
         {
             var ruleMapping = new Dictionary<string, bool>();
             var ruleArr = GetNumberAsDigitArray(rule, ruleSpace);
+
+            // we're taking from the rule's binary digits, just the digits that fit our rule space
+            // this is only relevant if we need fewer digits from the main rule when we generate the smaller rules that actually apply to cells
+            // example:
+            // we have 16238 as a rule which has the binary representation 11111101101110
+            // if we're running this with a rule space of 8, we will only take the last 8 digits from the binary represenation, meaning 01101110
+            // which will be the same as running with the rule 110 which represented in binary is also 01101110
+            ruleArr = ruleArr.Skip(ruleArr.Length - ruleSpace).ToArray();
+
             for (var i = 0; i < ruleArr.Length; i++)
             {
                 var subRuleDigitsCount = Convert.ToString(ruleSpace - 1, 2).Length;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CellularAutomationRuleGeneralized;
+using System;
 using System.Numerics;
 
 namespace CellularAutomationRule16bit
@@ -31,18 +32,22 @@ namespace CellularAutomationRule16bit
             var iterations = 100;
             var fps = 24;
             var randomColors = false;
+            var randomBoardState = false;
 
             Console.WriteLine("Enter rule: (defaults to 110)");
             var input = Console.ReadLine();
             if (input is not "" && BigInteger.TryParse(input, out BigInteger newRule))
                 if (newRule > 0)
+                {
                     rule = newRule;
+                    ruleSpace = BigIntConversion.ToBase2(rule).Length;
+                }
 
-            Console.WriteLine("Enter rule space: (defaults to 8bit)");
+            Console.WriteLine("Override rule space: (defaults to rule bit length; ex: 8bit for 110)");
             input = Console.ReadLine();
             if (input is not "" && int.TryParse(input, out int newSpace))
                 //if (newSpace > 8 && newSpace <= 64) 
-                if (newSpace > 8)
+                if (newSpace >= 8)
                     ruleSpace = newSpace;
 
             Console.WriteLine("Enter board size: (defaults to 200 columns)");
@@ -63,6 +68,11 @@ namespace CellularAutomationRule16bit
                 if (newFps > 0 && fps <= 144)
                     fps = newFps;
 
+
+            Console.WriteLine("Random board state ? (1 for true, 0 for false, defaults to false)");
+            input = Console.ReadLine();
+            randomBoardState = input == "1";
+
             Console.WriteLine("Random colours ? (1 for true, 0 for false, defaults to false)");
             input = Console.ReadLine();
             randomColors = input == "1";
@@ -70,7 +80,7 @@ namespace CellularAutomationRule16bit
 
 
 
-            var board = CellularAutomation.GetStartingBoard(boardSize);
+            var board = CellularAutomation.GetStartingBoard(boardSize, randomBoardState);
             CellularAutomation.PrintRuleMatrix(rule, ruleSpace);
             for (int i = 0; i < iterations; i++)
             {
@@ -80,6 +90,7 @@ namespace CellularAutomationRule16bit
                 board = CellularAutomation.SolveBoard(rule, ruleSpace, board);
                 System.Threading.Thread.Sleep(1000 / fps);
             }
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
     }
 }
