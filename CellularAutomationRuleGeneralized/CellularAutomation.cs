@@ -1,8 +1,8 @@
-﻿using System;
+﻿using CellularAutomationRuleGeneralized;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Numerics;
 
 namespace CellularAutomationRule16bit
 {
@@ -17,7 +17,7 @@ namespace CellularAutomationRule16bit
                 board = board.Select(b => random.Next(0, 2) == 1).ToArray();
             return board;
         }
-        public static bool[] SolveBoard(long rule, int ruleSpace, bool[] board)
+        public static bool[] SolveBoard(BigInteger rule, int ruleSpace, bool[] board)
         {
             var ruleMapping = GetRuleMapping(rule, ruleSpace);
             var length = board.Length;
@@ -28,7 +28,7 @@ namespace CellularAutomationRule16bit
             return newBoard;
         }
         public static void PrintBoard(bool[] board) => Console.WriteLine(string.Join("", board.Select(val => val ? "#" : " ")));
-        public static void PrintRuleMatrix(long rule, int ruleSpace)
+        public static void PrintRuleMatrix(BigInteger rule, int ruleSpace)
         {
             var rules = GetRuleMapping(rule, ruleSpace).OrderBy(kvp => int.Parse(string.Join("", kvp.Key.Split(" ").Select(i => bool.Parse(i) ? "1" : "0"))));
             Console.WriteLine(string.Format("rule {0} in {1}bit space => {2}", rule, ruleSpace, string.Join(" ", rules.Select(kvp => kvp.Value ? "1" : "0").Reverse())));
@@ -36,21 +36,28 @@ namespace CellularAutomationRule16bit
             rules.ToList().ForEach(r => Console.WriteLine(string.Format("{0,-55} => {1}", r.Key, r.Value)));
         }
 
-        private static bool[] GetNumberAsDigitArray(long number, int minDigits)
+        private static bool[] GetNumberAsDigitArray(BigInteger number, int minDigits)
         {
-            var numberBinaryArray = Convert.ToString(number, 2).ToCharArray().Select(c => c == '1'); ;
-            var leadingZeroes = Enumerable.Repeat(false, minDigits - numberBinaryArray.Count());
-            leadingZeroes.ToList().ForEach(zero => numberBinaryArray = numberBinaryArray.Prepend(zero));
-            return numberBinaryArray.ToArray();
+            var numberBinaryArray = BigIntConversion.ToBase2(number).ToCharArray().Select(c => c == '1');
+            //var leadingZeroes = Enumerable.Repeat(false, minDigits - numberBinaryArray.Count());
+            //leadingZeroes.ToList().ForEach(zero => numberBinaryArray = numberBinaryArray.Prepend(zero));
+            //
+            
+            // since using big integers, we can no longer use the above code
+            // with big integers, the lowest array lenght is 8 so in order to get just the bits we need
+            // we skip the first array.length - minimum digits
+            if (minDigits > numberBinaryArray.Count())
+                Enumerable.Repeat(false, minDigits - numberBinaryArray.Count()).ToList().ForEach(b => numberBinaryArray = numberBinaryArray.Prepend(b));
+            return numberBinaryArray.Skip(numberBinaryArray.Count() - minDigits).ToArray();
         }
-        private static Dictionary<string, bool> GetRuleMapping(long rule, int ruleSpace)
+        private static Dictionary<string, bool> GetRuleMapping(BigInteger rule, int ruleSpace)
         {
             var ruleMapping = new Dictionary<string, bool>();
             var ruleArr = GetNumberAsDigitArray(rule, ruleSpace);
             for (var i = 0; i < ruleArr.Length; i++)
             {
                 var subRuleDigitsCount = Convert.ToString(ruleSpace - 1, 2).Length;
-                var key = string.Join(" ", GetNumberAsDigitArray(i, subRuleDigitsCount));
+                var key = string.Join(" ", GetNumberAsDigitArray(new BigInteger(i), subRuleDigitsCount));
                 ruleMapping[key] = ruleArr[^(i + 1)];
             }
             return ruleMapping;
