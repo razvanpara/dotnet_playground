@@ -60,7 +60,7 @@ namespace CellularAutomationRule16bit
             Console.WriteLine("Enter fps: (defaults to 24, max 144)");
             input = Console.ReadLine();
             if (input is not "" && int.TryParse(input, out int newFps))
-                if (newFps > 0)
+                if (newFps > 0 && fps <= 144)
                     fps = newFps;
 
             Console.WriteLine("Random colours ? (1 for true, 0 for false, defaults to false)");
