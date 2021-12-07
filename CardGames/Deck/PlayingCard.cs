@@ -24,7 +24,7 @@
         {
             return !(a == b);
         }
-        public override string ToString() => $"{Value} of {Suit}";
+        public override string ToString() => $"{Value.AsString()}{Suit.AsString()}";
     }
 
 }

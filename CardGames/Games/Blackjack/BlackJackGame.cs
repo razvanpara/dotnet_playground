@@ -30,7 +30,7 @@ namespace CardGames.Games.Blackjack
             _players = _players.Where(p => p.Name != player.Name);
         }
 
-        public bool Continue() => Console.ReadLine() is string input && !input.Contains("exit");
+        public bool Continue() => HelperClass.GetInputWithMessage("Play again?") is string input && !(input.ToLower().Contains("exit") || input.ToLower().Contains("no"));
 
         public void NewRound()
         {

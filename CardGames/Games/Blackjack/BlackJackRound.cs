@@ -115,7 +115,8 @@ namespace CardGames.Games.Blackjack
             Console.WriteLine($"Options: \n - 1 hit\n - 0 stay");
             var input = Console.ReadKey();
             Console.WriteLine($"\bHas chosen {input.KeyChar}");
-            return int.Parse(input.KeyChar.ToString());
+            int.TryParse(input.KeyChar.ToString(), out int choice);
+            return choice;
         }
 
         private bool PlayerIsBust(PlayerHand playerHand) => _scoreCalculator.GetScore(playerHand) > 21;
@@ -149,7 +150,7 @@ namespace CardGames.Games.Blackjack
             Console.WriteLine();
             while (!PlayerIsBust(playerHand) && _scoreCalculator.GetScore(playerHand) < 21)
             {
-                if (GetPlayerChoice() == 0)
+                if (GetPlayerChoice() != 1)
                     break;
                 var card = DealPlayerCard(playerHand);
                 Console.WriteLine($"{playerHand.Player.Name} was dealt a '{card}'");

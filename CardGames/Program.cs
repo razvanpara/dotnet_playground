@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace CardGames
 {
@@ -13,9 +14,19 @@ namespace CardGames
     {
         static void Main(string[] args)
         {
-            var player1 = new Player("Razvan");
-            var player2 = new Player("John");
-            var blackjack = new BlackJackGame(player1, player2);
+            var playerNames = new List<string>();
+            Console.WriteLine("Register players:");
+            do
+            {
+                var playerName = HelperClass.GetInputWithMessage("Enter player name:");
+                while (playerNames.Contains(playerName))
+                {
+                    playerName = HelperClass.GetInputWithMessage("Player already exists, pick a new name:");
+                }
+                playerNames.Add(playerName);
+            }
+            while (HelperClass.GetInputWithMessage("Register more?") is string input && !(input.ToLower() == "done" || input.ToLower() == "no"));
+            var blackjack = new BlackJackGame(playerNames.Select(name => new Player(name)).ToArray());
             do
             {
                 blackjack.NewRound();
