@@ -12,6 +12,9 @@ namespace ConsoleSnakeGame.Elements
         public LinkedList<Point> Segments { get; private set; }
         public Point Head { get => Segments.First.Value; }
         public ConsoleKey MovingDirection { get => _direction; }
+        private ConsoleColor _mouthColor = ConsoleColor.Red;
+        private ConsoleColor _headColor = ConsoleColor.Black;
+        private ConsoleColor _bodyColor = ConsoleColor.Black;
 
         private Snake(params Point[] segments)
         {
@@ -21,12 +24,11 @@ namespace ConsoleSnakeGame.Elements
         public static Snake GetStartingSnake(IScreen screen)
         {
             var snakeHead = screen.GetCenter();
-            snakeHead.Color = ConsoleColor.Green;
             var snakeBody = new Point(snakeHead.X - 1, snakeHead.Y);
-            snakeBody.Color = ConsoleColor.Green;
             var snakeTail = new Point(snakeHead.X - 2, snakeHead.Y);
-            snakeBody.Color = ConsoleColor.Green;
-            return new Snake(snakeHead, snakeBody, snakeTail);
+            var snake = new Snake(snakeHead, snakeBody, snakeTail);
+            snake.SetBodyStyle();
+            return snake;
         }
         public bool SetMovingDirection(ConsoleKey direction)
         {
@@ -53,18 +55,18 @@ namespace ConsoleSnakeGame.Elements
         {
             // setting mouth
             var bodySegment = Segments.First;
-            bodySegment.Value.Color = ConsoleColor.Red;
+            bodySegment.Value.Color = _mouthColor;
             bodySegment.Value.Symbol = GetMouthDirection(_direction);
             // setting head
             bodySegment = bodySegment.Next;
-            bodySegment.Value.Color = ConsoleColor.DarkGreen;
+            bodySegment.Value.Color = _headColor;
             bodySegment.Value.Symbol = 'O';
 
             //setting the rest of the body
             bodySegment = bodySegment.Next;
             while (bodySegment != null)
             {
-                bodySegment.Value.Color = ConsoleColor.Green;
+                bodySegment.Value.Color = _bodyColor;
                 bodySegment.Value.Symbol = 'o';
                 bodySegment = bodySegment.Next;
             }
