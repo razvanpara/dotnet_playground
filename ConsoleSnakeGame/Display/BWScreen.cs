@@ -10,8 +10,8 @@ namespace ConsoleSnakeGame.Display
 
         }
 
-        private void ResetCursor() => Console.SetCursorPosition(0, Height);
-        private void MoveCursorTo(Point point) => Console.SetCursorPosition(point.X, point.Y);
+        protected void ResetCursor() => Console.SetCursorPosition(0, Height);
+        protected void MoveCursorTo(Point point) => Console.SetCursorPosition(point.X, point.Y);
 
         public override void ClearPixel(Point point)
         {
@@ -22,7 +22,7 @@ namespace ConsoleSnakeGame.Display
         public override void SetPixel(Point point)
         {
             MoveCursorTo(point);
-            Console.Write("#");
+            Console.Write(point.Symbol);
             ResetCursor();
         }
     }

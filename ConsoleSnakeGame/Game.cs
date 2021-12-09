@@ -46,6 +46,7 @@ namespace ConsoleSnakeGame
             while (newFood == _food || _snake.IsSnakeSegment(newFood))
                 newFood = new Point(_rand.Next(0, _screen.Width), _rand.Next(0, _screen.Height));
             newFood.Color = ConsoleColor.Red;
+            newFood.Symbol = '#';
             _food = newFood;
         }
         public async Task Play()

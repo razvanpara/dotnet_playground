@@ -38,11 +38,46 @@ namespace ConsoleSnakeGame.Elements
             }
             return false;
         }
-        public void MoveSnakeHead(IScreen screen) => MoveSegments(screen);
+        public void MoveSnakeHead(IScreen screen)
+        {
+            MoveSegments(screen);
+            SetBodyStyle();
+        }
         public void CutSnakeTail() => Segments.RemoveLast();
         public bool IsSnakeSegment(Point point)
         {
             return Segments.Any(seg => seg == point);
+        }
+
+        private void SetBodyStyle()
+        {
+            // setting mouth
+            var bodySegment = Segments.First;
+            bodySegment.Value.Color = ConsoleColor.Red;
+            bodySegment.Value.Symbol = GetMouthDirection(_direction);
+            // setting head
+            bodySegment = bodySegment.Next;
+            bodySegment.Value.Color = ConsoleColor.DarkGreen;
+            bodySegment.Value.Symbol = 'O';
+
+            //setting the rest of the body
+            bodySegment = bodySegment.Next;
+            while (bodySegment != null)
+            {
+                bodySegment.Value.Color = ConsoleColor.Green;
+                bodySegment.Value.Symbol = 'o';
+                bodySegment = bodySegment.Next;
+            }
+        }
+        private char GetMouthDirection(ConsoleKey direction)
+        {
+            return direction switch
+            {
+                ConsoleKey.UpArrow => 'v',
+                ConsoleKey.DownArrow => '^',
+                ConsoleKey.LeftArrow => '>',
+                _ => '<'
+            };
         }
         private bool IsValidDirection(ConsoleKey newDirection)
         {

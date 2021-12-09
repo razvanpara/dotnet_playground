@@ -7,6 +7,12 @@ namespace ConsoleSnakeGame.Elements
         public int X { get; private set; }
         public int Y { get; private set; }
         public ConsoleColor Color { get; set; }
+        public char Symbol { get; set; } = ' ';
+
+        public Point(int x, int y, ConsoleColor color, char symbol) : this(x, y, color)
+        {
+            Symbol = symbol;
+        }
 
         public Point(int x, int y, ConsoleColor color) : this(x, y)
         {
