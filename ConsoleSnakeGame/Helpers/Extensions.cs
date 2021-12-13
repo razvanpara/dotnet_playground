@@ -87,5 +87,86 @@ namespace ConsoleSnakeGame.Helpers
             }
             Console.WriteLine(sb.ToString());
         }
+
+        private static void Swap<T>(this T[,] arr, int aX, int aY, int bX, int bY)
+        {
+            T temp = arr[aX, aY];
+            arr[aX, aY] = arr[bX, bY];
+            arr[bX, bY] = temp;
+        }
+        private static void MoveEdge<T>(this T[,] arr, int holderRow, int holderCol, int rowStart, int colStart,
+            Func<int, int> rowModifier, Func<int, int> colModifier, Func<int, int, bool> predicate)
+        {
+            // recursive
+            if (predicate(rowStart, colStart))
+            {
+                arr.Swap(holderRow, holderCol, rowStart, colStart);
+                arr.MoveEdge(holderRow, holderCol, rowModifier(rowStart), colModifier(colStart), rowModifier, colModifier, predicate);
+            }
+
+            // iterative
+            //for (int row = rowStart,
+            //col = colStart;
+            //predicate(row, col);
+            //row = rowModifier(row),
+            //col = colModifier(col))
+            //    arr.Swap(holderRow, holderCol, row, col);
+        }
+
+        private static void RotateLayer<T>(this T[,] arr, int layer, int elements)
+        {
+            int layerStart = layer;
+            int layerLastIndex = arr.GetLength(0) - 1 - layer;
+            for (int i = 0; i < Math.Abs(elements); i++)
+                if (elements > 0) // clockwise rotation
+                {
+                    // top edge
+                    arr.MoveEdge(layerStart, layerStart, layerStart, layerStart + 1, row => row + 0, col => col + 1, (row, col) => col <= layerLastIndex);
+                    // right edge
+                    arr.MoveEdge(layerStart, layerStart, layerStart + 1, layerLastIndex, row => row + 1, col => col + 0, (row, col) => row <= layerLastIndex);
+                    // bottom edge
+                    arr.MoveEdge(layerStart, layerStart, layerLastIndex, layerLastIndex - 1, row => row + 0, col => col - 1, (row, col) => col >= layerStart);
+                    // left edge
+                    arr.MoveEdge(layerStart, layerStart, layerLastIndex - 1, layerStart, row => row - 1, col => col + 0, (row, col) => row >= layerStart);
+                }
+                else // counter clockwise rotation
+                {
+                    // top edge
+                    arr.MoveEdge(layerStart, layerLastIndex, layerStart, layerLastIndex - 1, row => row + 0, col => col - 1, (row, col) => col >= layerStart);
+                    // left edge
+                    arr.MoveEdge(layerStart, layerLastIndex, layerStart + 1, layerStart, row => row + 1, col => col + 0, (row, col) => row <= layerLastIndex);
+                    // bottom edge
+                    arr.MoveEdge(layerStart, layerLastIndex, layerLastIndex, layerStart + 1, row => row + 0, col => col + 1, (row, col) => col <= layerLastIndex);
+                    // right edge
+                    arr.MoveEdge(layerStart, layerLastIndex, layerLastIndex - 1, layerLastIndex, row => row - 1, col => col + 0, (row, col) => row >= layerStart);
+                }
+        }
+        public static void RotateByElement<T>(this T[,] arr, int elements = 1)
+        {
+            var length = arr.GetLength(0);
+            var layers = length / 2;
+            for (int layer = 0; layer < layers; layer++)
+                arr.RotateLayer(layer, elements);
+        }
+        public static void RotateByDegrees<T>(this T[,] arr, int degrees = 1)
+        {
+            // . . .    . . . .     . . . . .
+            // . . .    . . . .     . . . . .
+            // . . .    . . . .     . . . . .
+            //          . . . .     . . . . .
+            //                      . . . . .
+            var sideElements = arr.GetLength(0);
+
+
+            var length = arr.GetLength(0);
+            var layers = length / 2;
+            for (int layer = 0; layer < layers; layer++)
+            {
+                var outerElementsCount = (sideElements - layer * 2) * 4 - 4;
+                var degreesPerElement = (double)360 / outerElementsCount;
+                var elementsToRotate = (int)Math.Floor(degrees / degreesPerElement);
+                arr.RotateLayer(layer, elementsToRotate);
+            }
+        }
     }
 }
