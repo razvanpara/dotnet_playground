@@ -40,6 +40,9 @@ namespace ImageToASCII
         }
         static void Main(string[] args)
         {
+            // example: ImageToASCII.exe testimage.jpg test.txt 1.2
+            // this will resize the image to 120% before turning into ascii
+
             if (args.Length >= 2)
             {
                 if (File.Exists(Path.GetFullPath(args[0])))
