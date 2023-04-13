@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31613.86
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CellularAutomationRule8bit", "CellularAutomationRule\CellularAutomationRule8bit.csproj", "{9181A0C3-0607-40E6-B91C-09A3614174DB}"
 EndProject
@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardGames", "CardGames\Card
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleSnakeGame", "ConsoleSnakeGame\ConsoleSnakeGame.csproj", "{F07449AE-F630-4818-B1C9-9A0F266F23CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageToASCII", "ImageToASCII\ImageToASCII.csproj", "{1F5F4812-52E8-4C77-BDBE-DCD1057EAE2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageToASCII", "ImageToASCII\ImageToASCII.csproj", "{1F5F4812-52E8-4C77-BDBE-DCD1057EAE2A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConwaysGameOfLife", "ConwaysGameOfLife\ConwaysGameOfLife.csproj", "{FFD754ED-FC17-4EB2-996B-2B9CDF388A0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{1F5F4812-52E8-4C77-BDBE-DCD1057EAE2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F5F4812-52E8-4C77-BDBE-DCD1057EAE2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F5F4812-52E8-4C77-BDBE-DCD1057EAE2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFD754ED-FC17-4EB2-996B-2B9CDF388A0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFD754ED-FC17-4EB2-996B-2B9CDF388A0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFD754ED-FC17-4EB2-996B-2B9CDF388A0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFD754ED-FC17-4EB2-996B-2B9CDF388A0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
